@@ -2,7 +2,7 @@ from utils.regression_trainer import RegTrainer
 import argparse
 import os
 import torch
-args = None
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train ')
@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument('--batch-size', type=int, default=1,
                         help='train batch size')
     parser.add_argument('--device', default='0', help='assign device')
-    parser.add_argument('--num-workers', type=int, default=8,
+    parser.add_argument('--num-workers', type=int, default=0,
                         help='the num of training process')
 
     parser.add_argument('--is-gray', type=bool, default=False,
@@ -49,10 +49,14 @@ def parse_args():
     return args
 
 
+# train.py
 if __name__ == '__main__':
     args = parse_args()
     torch.backends.cudnn.benchmark = True
-    os.environ['CUDA_VISIBLE_DEVICES'] = args.device.strip()  # set vis gpu
+    
+    if args.device.isdigit():
+        os.environ['CUDA_VISIBLE_DEVICES'] = args.device.strip()
+    
     trainer = RegTrainer(args)
     trainer.setup()
     trainer.train()

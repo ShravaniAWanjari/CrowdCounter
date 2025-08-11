@@ -3,7 +3,8 @@ __pycache__/
 *.py[codz]
 *$py.class
 UCF-QNRF_ECCV18
-results
+testing.py
+training_results
 processed_data
 # C extensions
 *.so
